@@ -25,15 +25,17 @@ def obfuscate(word, letters_guessed):
 def start_new_game(word):
     letters_guessed = ""
     print ("Word: " + '_'*len(word)) 
+    was_successfull = False
     letters = "ABCDEFGHIJLMNOPQRSTUVWXYZ"
     i = 0
     while ( i < 10):
         print("Tries left: ", 10-(i), " Guess a letter:")
         x = input()
-        if ( len( x ) > 1 ):
+        x = x.lower()
+        if ( len( x ) > 1 or letters_guessed.upper().find( x.upper() ) == -1 and letters.find ( x.upper()) == -1):
             print("Wrong input! Please write only one letter! ")
             continue
-        if ( letters_guessed.find( x ) != -1):
+        if ( letters_guessed.upper().find( x.upper() ) != -1):
             print("The letter " + x + " was already guessed! ")
             continue
 
@@ -44,12 +46,15 @@ def start_new_game(word):
         print( result_word )
         if result_word.lower() == word.lower():
             print("You guessed the word correctly!")
-            break
+            was_successfull = True
+            
         print( "Letters remaining: ", letters.upper() )
         if word.lower().find(x.lower()) == -1 :
             i += 1
             if i == 10 :
                 print ("Out of tries!")
+        if was_successfull:
+            break
 
     print( "Do you want to play again? (y)/(n)")
     x = input()
